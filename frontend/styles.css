@@ -1,0 +1,179 @@
+body {
+  font-family: Arial;
+  max-width: 1000px;
+  margin: 20px auto;
+}
+
+.app-header {
+  text-align: center;
+}
+
+
+.drag-area {
+  border: 2px dashed #aaa;
+  padding: 20px;
+  text-align: center;
+  position: relative;
+  border-radius: 8px;
+}
+
+.drag-area p {
+  margin: 0;
+}
+
+#fileInput {
+  display: none;
+}
+
+.choose-btn {
+  display: inline-block;
+  margin-top: 10px;
+  padding: 8px 15px;
+  background: #4caf50;
+  color: white;
+  cursor: pointer;
+  border-radius: 5px;
+  font-weight: bold;
+  text-align: center;
+}
+
+.choose-btn:hover {
+  background: #45a049;
+}
+
+.options {
+  margin: 20px 0;
+  width: 100%;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+.btn-convert{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.options label {
+  display: flex;
+  flex-direction: column;
+}
+
+/* ===== LIST VIEW ===== */
+#imageList {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  /* vertical list */
+  gap: 12px;
+}
+
+/* ===== IMAGE CARD ===== */
+.image-card {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 10px;
+  position: relative;
+  /* for remove button */
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  box-shadow: 0 1px 5px rgba(0, 0, 0, 0.1);
+  justify-content: space-between;
+}
+
+/* ===== IMAGE ===== */
+.image-card img {
+  width: 70px;
+  height: 70px;
+  border-radius: 5px;
+}
+
+/* ===== REMOVE BUTTON ===== */
+.remove-btn {
+  position: absolute;
+  top: 5px;
+  right: 5px;
+  width: 24px;
+  height: 24px;
+  border-radius: 50%;
+  color: #f44336;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+/* ===== FILE INFO ===== */
+.image-card .file-name {
+  font-weight: bold;
+  margin: 0 0 2px 0;
+}
+
+.image-card .file-size,
+.image-card .file-dimensions {
+  margin: 0;
+  font-size: 12px;
+  color: #555;
+}
+
+/* ===== PROGRESS BAR ===== */
+.progress-bar {
+  width: 30%;
+  background-color: #8f8f8f;
+  border-radius: 5px;
+  overflow: hidden;
+  height: 25px;
+  position: relative;
+}
+
+.progress-bar-inner {
+  height: 100%;
+  width: 0%;
+  background-color: #4caf50;
+  text-align: center;
+  line-height: 25px;
+  color: white;
+  font-weight: bold;
+  transition: width 0.1s ease;
+  position: relative;
+}
+
+.progress-text {
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  left: 0;
+  top: 0;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+/* ===== BUTTON ===== */
+.image-card button {
+  padding: 5px 10px;
+  border: none;
+  background: #2196F3;
+  color: white;
+  cursor: pointer;
+  border-radius: 4px;
+}
+
+.image-card button:disabled {
+  background: #aaa;
+  cursor: not-allowed;
+}
+
+/* ===== ZIP BUTTON ===== */
+#downloadZipBtn {
+  margin-top: 20px;
+  padding: 10px 20px;
+  background: #f57c00;
+  color: white;
+  border: none;
+  cursor: pointer;
+  border-radius: 5px;
+}
+
+#downloadZipBtn:hover {
+  background: #e65100;
+}
