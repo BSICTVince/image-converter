@@ -8,6 +8,9 @@ const lockAspectEl = document.getElementById("lockAspect");
 const widthEl = document.getElementById("resizeWidth");
 const heightEl = document.getElementById("resizeHeight");
 
+const API_BASE_URL = window.location.origin;
+
+
 let files = [];
 const MAX_FILES = 15;
 let originalAspectRatio = 1; // width / height
@@ -194,7 +197,7 @@ convertBtn.addEventListener("click", async () => {
     if (height) formData.append("height", height);
 
     try {
-      const res = await fetch("http://localhost:3000/convert", {
+      const res = await fetch(`${API_BASE_URL}/convert`, {
         method: "POST",
         body: formData
       });
