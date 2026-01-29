@@ -1,3 +1,14 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Image Converter</title>
+<meta name="description" content="Easily convert Images from one format to another, online.">
+<link rel="icon" type="image/png" href="favicon.png">
+<link rel="stylesheet" href="styles.css">
+</head>
+<body>
 <body>
 
 <div class="layout">
@@ -8,7 +19,7 @@
 
     <details>
       <summary>What formats are supported?</summary>
-      <p>JPG, JPEG, PNG, WebP, AVIF, and SVG.</p>
+      <p>JPG, JPEG, PNG, WebP, AVIF, SVG.</p>
     </details>
 
     <details>
@@ -69,35 +80,28 @@
       <label>
         <input type="checkbox" id="lockAspect"> Lock Aspect Ratio
       </label>
+
     </div>
 
     <section class="btn-convert">
-      <button id="convertBtn">CONVERT</button>
+        <button id="convertBtn">CONVERT</button>
     </section>
 
+    <!-- Image Preview List -->
     <div id="imageList"></div>
 
-    <button id="downloadZipBtn" style="display:none">
-      Download All as ZIP
-    </button>
+    <!-- Download ZIP -->
+    <button id="downloadZipBtn" style="display:none">Download All as ZIP</button>
 
   </main>
 
-  <!-- RIGHT SIDEBAR : SUPPORT -->
+  <!-- RIGHT SIDEBAR : Support -->
   <aside class="sidebar right">
     <h3>Support</h3>
 
-    <a class="support-btn coffee" href="#" target="_blank">
-      ☕ Buy Me a Coffee
-    </a>
-
-    <a class="support-btn bug" href="#">
-      🐞 Report a Bug
-    </a>
-
-    <a class="support-btn rate" href="#">
-      ⭐ Rate This Tool
-    </a>
+    <a class="support-btn coffee" href="#" target="_blank">☕ Buy Me a Coffee</a>
+    <a class="support-btn bug" href="#">🐞 Report a Bug</a>
+    <a class="support-btn rate" href="#">⭐ Rate This Tool</a>
   </aside>
 
 </div>
@@ -106,3 +110,4 @@
 <script src="app.js"></script>
 
 </body>
+</html>

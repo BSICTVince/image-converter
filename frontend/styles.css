@@ -1,6 +1,5 @@
 body {
   font-family: Arial;
-  max-width: 1000px;
   margin: 20px auto;
 }
 
@@ -58,12 +57,74 @@ body {
   display: flex;
   flex-direction: column;
 }
+
+
+/* MAIN APP */
+.app {
+  max-width: 1000px;
+  margin: 0 auto;
+}
+
+/* ===== SIDEBARS ===== */
+.sidebar {
+  position: sticky;
+  top: 20px;
+  height: fit-content;
+  padding: 15px;
+  border-radius: 8px;
+  background: #f9f9f9;
+  border: 1px solid #ddd;
+}
+
+.sidebar h3 {
+  margin-top: 0;
+  margin-bottom: 10px;
+  font-size: 18px;
+}
+
+/* FAQ */
+.sidebar details {
+  margin-bottom: 10px;
+}
+
+.sidebar summary {
+  cursor: pointer;
+  font-weight: bold;
+}
+
+/* SUPPORT BUTTONS */
+.support-btn {
+  display: block;
+  text-decoration: none;
+  color: white;
+  padding: 10px;
+  margin-bottom: 10px;
+  text-align: center;
+  border-radius: 6px;
+  font-weight: bold;
+}
+
+.support-btn.coffee {
+  background: #ff813f;
+}
+
+.support-btn.bug {
+  background: #f44336;
+}
+
+.support-btn.rate {
+  background: #ffb300;
+}
+
+.support-btn:hover {
+  opacity: 0.9;
+}
 /* ===== LAYOUT ===== */
 .layout {
   display: grid;
-  grid-template-columns: 220px 1fr 220px;
+  grid-template-columns: 1fr 2fr 1fr;
   gap: 20px;
-  max-width: 1400px;
+  max-width: 1440px;
   margin: 20px auto;
 }
 
@@ -127,6 +188,7 @@ body {
 .support-btn:hover {
   opacity: 0.9;
 }
+
 
 /* ===== LIST VIEW ===== */
 #imageList {
@@ -251,7 +313,6 @@ body {
   animation: blink 1s infinite;
 }
 
-
 /* ===== RESPONSIVE ===== */
 @media (max-width: 1100px) {
   .layout {
@@ -261,6 +322,7 @@ body {
   .sidebar {
     position: relative;
     order: 2;
+    margin-top: 20px;
   }
 
   .sidebar.left {
