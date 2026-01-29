@@ -1,5 +1,5 @@
-import sharp from "sharp";
-import { optimize as svgoOptimize } from "svgo";
+import sharp from "sharp";// Image processing library
+import { optimize as svgoOptimize } from "svgo";// SVG optimization
 
 /**
  * Convert raster image to SVG using image-tracer-js

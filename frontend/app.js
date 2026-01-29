@@ -10,7 +10,6 @@ const heightEl = document.getElementById("resizeHeight");
 
 const API_BASE_URL = window.location.origin;
 
-
 let files = [];
 const MAX_FILES = 15;
 let originalAspectRatio = 1; // width / height
@@ -25,36 +24,30 @@ dragArea.addEventListener("drop", (e) => {
   addFiles(e.dataTransfer.files, true);
 });
 
-// --- Auto-adjust height/width based on aspect ratio ---
+// --- Auto-adjust width/height based on aspect ratio ---
 widthEl.addEventListener("input", () => {
   if (lockAspectEl.checked && widthEl.value && originalAspectRatio) {
     heightEl.value = Math.round(widthEl.value / originalAspectRatio);
   }
 });
-
 heightEl.addEventListener("input", () => {
   if (lockAspectEl.checked && heightEl.value && originalAspectRatio) {
     widthEl.value = Math.round(heightEl.value * originalAspectRatio);
   }
 });
 
-// --- Add files with max limit ---
+// --- Add files ---
 function addFiles(newFiles, replace = false) {
-  if (replace) {
-    files = [];
-  }
+  if (replace) files = [];
 
   for (const f of newFiles) {
-    if (!files.includes(f)) files.push(f);
-  }
-
-  if (files.length > MAX_FILES) {
-    alert(`Only a maximum of ${MAX_FILES} files can be converted. Extra files will be ignored.`);
-    files = files.slice(0, MAX_FILES);
+    const exists = files.some(file => file.name === f.name && file.size === f.size);
+    if (!exists) files.push(f);
   }
 
   renderImages();
 }
+
 
 // --- Render image previews ---
 function renderImages() {
@@ -65,11 +58,11 @@ function renderImages() {
     card.className = "image-card";
     card.style.position = "relative";
 
-    // --- Image preview ---
+    // Image preview
     const img = document.createElement("img");
     img.src = URL.createObjectURL(file);
 
-    // --- File info ---
+    // File info
     const infoDiv = document.createElement("div");
     infoDiv.style.display = "flex";
     infoDiv.style.flexDirection = "column";
@@ -89,7 +82,7 @@ function renderImages() {
 
     infoDiv.append(name, size, dimensions);
 
-    // --- Remove button ---
+    // Remove button
     const removeBtn = document.createElement("div");
     removeBtn.className = "remove-btn";
     removeBtn.textContent = "×";
@@ -105,31 +98,30 @@ function renderImages() {
       renderImages();
     };
 
-    // --- Progress bar ---
+    // Progress bar
     const progress = document.createElement("div");
     progress.className = "progress-bar";
 
     const inner = document.createElement("div");
     inner.className = "progress-bar-inner";
-    inner.style.width = "0%"; // no bar animation needed if you just show numbers
+    inner.style.width = "0%";
 
     const progressText = document.createElement("span");
     progressText.className = "progress-text";
-    progressText.textContent = "Loading..."; // start with loading
+    progressText.textContent = "Loading...";
 
     inner.appendChild(progressText);
     progress.appendChild(inner);
 
-    // --- Download button ---
+    // Download button
     const downloadBtn = document.createElement("button");
     downloadBtn.textContent = "Download";
     downloadBtn.disabled = true;
 
-    // --- Append everything ---
     card.append(img, infoDiv, progress, downloadBtn, removeBtn);
     imageList.appendChild(card);
 
-    // --- Store references for later use ---
+    // Store references
     file._progressEl = inner;
     file._progressText = progressText;
     file._downloadBtn = downloadBtn;
@@ -137,32 +129,24 @@ function renderImages() {
     file._dimensionsEl = dimensions;
     file._formatEl = name;
 
-    // ----- Check if image actually loads in RAM -----
+    // Check if image loads into RAM
     const tempImg = new Image();
     tempImg.onload = () => {
-      // Image loaded successfully
       dimensions.textContent = `${tempImg.naturalWidth} x ${tempImg.naturalHeight}`;
-      progressText.textContent = "Ready"; // Only mark Ready after successful load
-
-      // First image drives aspect ratio
+      progressText.textContent = "Ready";
       if (index === 0) {
         originalAspectRatio = tempImg.naturalWidth / tempImg.naturalHeight;
         if (!widthEl.value) widthEl.value = tempImg.naturalWidth;
         if (!heightEl.value) heightEl.value = tempImg.naturalHeight;
       }
     };
-
     tempImg.onerror = () => {
-      // Failed to load image
       progressText.textContent = "Failed to load";
-      inner.style.backgroundColor = "#f44336"; // Optional: red background for failed
+      inner.style.backgroundColor = "#f44336";
     };
-
-    // Start loading
     tempImg.src = URL.createObjectURL(file);
   });
 }
-
 
 // --- Convert images ---
 convertBtn.addEventListener("click", async () => {
@@ -183,10 +167,7 @@ convertBtn.addEventListener("click", async () => {
   let height = heightEl && heightEl.value ? parseInt(heightEl.value) : null;
 
   if (format === "svg") {
-    targetKB = null;
-    percent = null;
-    width = null;
-    height = null;
+    targetKB = percent = width = height = null;
   }
 
   downloadZipBtn.style.display = "none";
@@ -207,29 +188,22 @@ convertBtn.addEventListener("click", async () => {
     if (height) formData.append("height", height);
 
     try {
-      const res = await fetch(`${API_BASE_URL}/convert`, {
-        method: "POST",
-        body: formData
-      });
-
+      const res = await fetch(`${API_BASE_URL}/convert`, { method: "POST", body: formData });
       if (!res.ok) throw new Error("Conversion failed");
 
       const blob = await res.blob();
 
-      // --- Update file info ---
+      // Update file info
       if (file._sizeEl) file._sizeEl.textContent = `${(blob.size / 1024).toFixed(2)} KB`;
       if (file._formatEl) {
-        const ext = format.toLowerCase();  // <<< changed from toUpperCase() to toLowerCase()
-        file._formatEl.textContent = file.name.replace(/\.\w+$/, `.${ext}`);
+        file._formatEl.textContent = file.name.replace(/\.\w+$/, `.${format.toLowerCase()}`);
       }
 
-      // --- Update dimensions with correct aspect ratio ---
+      // Update dimensions
       const tempImg = new Image();
       tempImg.onload = () => {
         let w = tempImg.naturalWidth;
         let h = tempImg.naturalHeight;
-
-        // Maintain aspect ratio if locked
         if (lockAspectEl.checked && widthEl.value && heightEl.value) {
           const newAspect = widthEl.value / heightEl.value;
           if (Math.abs(newAspect - originalAspectRatio) > 0.01) {
@@ -237,11 +211,7 @@ convertBtn.addEventListener("click", async () => {
             h = Math.round(w / originalAspectRatio);
           }
         }
-
-        if (file._dimensionsEl) {
-          file._dimensionsEl.textContent = `${w} x ${h}`;
-        }
-
+        if (file._dimensionsEl) file._dimensionsEl.textContent = `${w} x ${h}`;
         if (files[0] === file) {
           originalAspectRatio = tempImg.naturalWidth / tempImg.naturalHeight;
           widthEl.value = tempImg.naturalWidth;
@@ -250,7 +220,7 @@ convertBtn.addEventListener("click", async () => {
       };
       tempImg.src = URL.createObjectURL(blob);
 
-      // --- Enable download button ---
+      // Enable download button
       if (file._downloadBtn) {
         file._downloadBtn.disabled = false;
         file._downloadBtn.onclick = () => {
@@ -262,7 +232,7 @@ convertBtn.addEventListener("click", async () => {
         };
       }
 
-      // --- Progress animation ---
+      // Progress simulation (numbers only)
       if (file._progressText && file._progressEl) {
         let progress = 0;
         const interval = setInterval(() => {
@@ -278,8 +248,7 @@ convertBtn.addEventListener("click", async () => {
         }, 50);
       }
 
-      const zipFileName = file._formatEl ? file._formatEl.textContent : file.name;
-      zip.file(zipFileName, blob);
+      zip.file(file._formatEl ? file._formatEl.textContent : file.name, blob);
 
     } catch (err) {
       console.error("Conversion error:", file.name, err);
@@ -291,7 +260,7 @@ convertBtn.addEventListener("click", async () => {
     }
   }
 
-  // --- ZIP download ---
+  // ZIP download
   const zipBlob = await zip.generateAsync({ type: "blob" });
   downloadZipBtn.style.display = "inline";
   downloadZipBtn.onclick = () => {

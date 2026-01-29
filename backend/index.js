@@ -1,10 +1,10 @@
-import express from "express";
-import multer from "multer";
-import cors from "cors";
-import AdmZip from "adm-zip";
-import { optimizeImage } from "./utils.js";
-import path from "path";
-import { fileURLToPath } from "url";
+import express from "express";// Web framework
+import multer from "multer";// For handling multipart/form-data
+import cors from "cors";// Enable CORS
+import AdmZip from "adm-zip";// For creating ZIP files
+import { optimizeImage } from "./utils.js";// Image optimization utility
+import path from "path";// Path utilities
+import { fileURLToPath } from "url";// URL utilities 
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);

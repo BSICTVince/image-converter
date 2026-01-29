@@ -1,70 +1,108 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-<meta charset="UTF-8">
-<title>Image Converter</title>
-<link rel="stylesheet" href="styles.css">
-</head>
 <body>
-<div class="app-header">
-<h1>Image File Converter</h1>
-<p>Easily convert Images from one format to another, online.</p></div>
 
-<!-- Drag & Drop Area -->
-<div class="drag-area" id="dragArea">
-  <p>Drag & drop images here or click "Choose File"</p>
-  <input type="file" id="fileInput" multiple>
-  <label for="fileInput" class="choose-btn">Choose File</label>
+<div class="layout">
+
+  <!-- LEFT SIDEBAR : FAQ -->
+  <aside class="sidebar left">
+    <h3>FAQ</h3>
+
+    <details>
+      <summary>What formats are supported?</summary>
+      <p>JPG, JPEG, PNG, WebP, AVIF, and SVG.</p>
+    </details>
+
+    <details>
+      <summary>Is my image uploaded?</summary>
+      <p>No. All conversions happen locally in your browser.</p>
+    </details>
+
+    <details>
+      <summary>How does compression work?</summary>
+      <p>You can compress by target size or percentage.</p>
+    </details>
+  </aside>
+
+  <!-- MAIN APP -->
+  <main class="app">
+
+    <div class="app-header">
+      <h1>Image File Converter</h1>
+      <p>Easily convert Images from one format to another, online.</p>
+    </div>
+
+    <!-- Drag & Drop Area -->
+    <div class="drag-area" id="dragArea">
+      <p>Drag & drop images here or click "Choose File"</p>
+      <input type="file" id="fileInput" multiple>
+      <label for="fileInput" class="choose-btn">Choose File</label>
+    </div>
+
+    <!-- Conversion Options -->
+    <div class="options">
+      <label>Format:
+        <select id="format">
+          <option value="jpg">JPG</option>
+          <option value="jpeg">JPEG</option>
+          <option value="png">PNG</option>
+          <option value="webp">WebP</option>
+          <option value="avif">AVIF</option>
+          <option value="svg">SVG</option>
+        </select>
+      </label>
+
+      <label>Target Size (KB):
+        <input type="number" id="targetKB" value="200">
+      </label>
+
+      <label>Percent Compression (%):
+        <input type="number" id="percent" placeholder="eg. 20">
+      </label>
+
+      <label>Resize Width:
+        <input type="number" id="resizeWidth" placeholder="eg. 2000">
+      </label>
+
+      <label>Resize Height:
+        <input type="number" id="resizeHeight" placeholder="eg. 2000">
+      </label>
+
+      <label>
+        <input type="checkbox" id="lockAspect"> Lock Aspect Ratio
+      </label>
+    </div>
+
+    <section class="btn-convert">
+      <button id="convertBtn">CONVERT</button>
+    </section>
+
+    <div id="imageList"></div>
+
+    <button id="downloadZipBtn" style="display:none">
+      Download All as ZIP
+    </button>
+
+  </main>
+
+  <!-- RIGHT SIDEBAR : SUPPORT -->
+  <aside class="sidebar right">
+    <h3>Support</h3>
+
+    <a class="support-btn coffee" href="#" target="_blank">
+      ☕ Buy Me a Coffee
+    </a>
+
+    <a class="support-btn bug" href="#">
+      🐞 Report a Bug
+    </a>
+
+    <a class="support-btn rate" href="#">
+      ⭐ Rate This Tool
+    </a>
+  </aside>
+
 </div>
 
-<!-- Conversion Options -->
-<div class="options">
-  <label>Format:
-    <select id="format">
-      <option value="jpg">JPG</option>
-      <option value="jpeg">JPEG</option>
-      <option value="png">PNG</option>
-      <option value="webp">WebP</option>
-      <option value="avif">AVIF</option>
-      <option value="svg">SVG</option>
-    </select>
-  </label>
-
-  <label>Target Size (KB):
-    <input type="number" id="targetKB" value="200">
-  </label>
-
-  <label>Percent Compression (%):
-    <input type="number" id="percent" placeholder="eg. 20">
-  </label>
-
-  <label>Resize Width:
-    <input type="number" id="resizeWidth" placeholder="eg. 2000">
-  </label>
-
-  <label>Resize Height:
-    <input type="number" id="resizeHeight" placeholder="eg. 2000">
-  </label>
-
-  <label>
-  <input type="checkbox" id="lockAspect"> Lock Aspect Ratio
-  </label>
-
-</div>
-<section class="btn-convert">
-    <button id="convertBtn">CONVERT</button>
-
-</section>
-
-<!-- Image Preview List -->
-<div id="imageList"></div>
-
-<!-- Download ZIP -->
-<button id="downloadZipBtn" style="display:none">Download All as ZIP</button>
-
-<!-- JS Dependencies -->
 <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js"></script>
 <script src="app.js"></script>
 
 </body>
-</html>
