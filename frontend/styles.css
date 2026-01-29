@@ -177,3 +177,7 @@ body {
 #downloadZipBtn:hover {
   background: #e65100;
 }
+.processing::after {
+  content: " ⏳";
+  animation: blink 1s infinite;
+}

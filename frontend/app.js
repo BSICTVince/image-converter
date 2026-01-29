@@ -65,6 +65,7 @@ function renderImages() {
     card.className = "image-card";
     card.style.position = "relative";
 
+    // --- Image preview ---
     const img = document.createElement("img");
     img.src = URL.createObjectURL(file);
 
@@ -110,22 +111,25 @@ function renderImages() {
 
     const inner = document.createElement("div");
     inner.className = "progress-bar-inner";
+    inner.style.width = "0%"; // no bar animation needed if you just show numbers
 
     const progressText = document.createElement("span");
     progressText.className = "progress-text";
-    progressText.textContent = "Uploading...";
+    progressText.textContent = "Loading..."; // start with loading
 
     inner.appendChild(progressText);
     progress.appendChild(inner);
 
+    // --- Download button ---
     const downloadBtn = document.createElement("button");
     downloadBtn.textContent = "Download";
     downloadBtn.disabled = true;
 
+    // --- Append everything ---
     card.append(img, infoDiv, progress, downloadBtn, removeBtn);
     imageList.appendChild(card);
 
-    // ---- Store references to update later ----
+    // --- Store references for later use ---
     file._progressEl = inner;
     file._progressText = progressText;
     file._downloadBtn = downloadBtn;
@@ -133,26 +137,32 @@ function renderImages() {
     file._dimensionsEl = dimensions;
     file._formatEl = name;
 
-    // ----- Get original dimensions and set aspect ratio -----
+    // ----- Check if image actually loads in RAM -----
     const tempImg = new Image();
     tempImg.onload = () => {
+      // Image loaded successfully
       dimensions.textContent = `${tempImg.naturalWidth} x ${tempImg.naturalHeight}`;
-      if (index === 0) { // first image drives aspect ratio
+      progressText.textContent = "Ready"; // Only mark Ready after successful load
+
+      // First image drives aspect ratio
+      if (index === 0) {
         originalAspectRatio = tempImg.naturalWidth / tempImg.naturalHeight;
         if (!widthEl.value) widthEl.value = tempImg.naturalWidth;
         if (!heightEl.value) heightEl.value = tempImg.naturalHeight;
       }
     };
-    tempImg.src = URL.createObjectURL(file);
 
-    // Auto-update Uploaded for localhost
-    if (window.location.hostname === "localhost" || window.location.hostname === "127.0.0.1") {
-      setTimeout(() => {
-        progressText.textContent = "Uploaded";
-      }, 500);
-    }
+    tempImg.onerror = () => {
+      // Failed to load image
+      progressText.textContent = "Failed to load";
+      inner.style.backgroundColor = "#f44336"; // Optional: red background for failed
+    };
+
+    // Start loading
+    tempImg.src = URL.createObjectURL(file);
   });
 }
+
 
 // --- Convert images ---
 convertBtn.addEventListener("click", async () => {
@@ -185,7 +195,7 @@ convertBtn.addEventListener("click", async () => {
   for (const file of files) {
     if (file._progressEl && file._progressText) {
       file._progressEl.style.width = "0%";
-      file._progressText.textContent = "Initializing...";
+      file._progressText.textContent = "Processing...";
     }
 
     const formData = new FormData();
